@@ -8,7 +8,9 @@ from bs4 import BeautifulSoup
 import urllib.request
 
 class CraiglistScaper(object):
+    """This is a class for scraping Craiglist postings for bicycles given certain specifications of what to search for"""
     def __init__(self, location, postal, max_price, radius, bike, brakes, handlebars):
+        """The constructor for CraiglistScraper class"""
         self.location = location
         self.postal = postal
         self.max_price = max_price
@@ -23,6 +25,7 @@ class CraiglistScaper(object):
         self.delay = 3
 
     def load_craigslist_url(self):
+        """The function to load the Craiglist results page in Chrome browser"""
         self.driver.get(self.url)
         try:
             wait = WebDriverWait(self.driver, self.delay)
@@ -32,6 +35,7 @@ class CraiglistScaper(object):
             print("Loading took too much time")
 
     def extract_post_titles(self):
+        """The function to print out Craiglist post titles in Terminal"""
         all_posts = self.driver.find_elements_by_class_name("result-row")
         post_title_list = []
         for post in all_posts:
@@ -40,6 +44,7 @@ class CraiglistScaper(object):
         return post_title_list
 
     def extract_post_urls(self):
+        """The function to print out Craiglist post urls in Terminal"""
         url_list = []
         html_page = urllib.request.urlopen(self.url)
         soup = BeautifulSoup(html_page, "html.parser")
@@ -49,6 +54,7 @@ class CraiglistScaper(object):
         return url_list
 
     def quit(self):
+        """The function to close browser window if desired after running program"""
         self.driver.close()
 
 location = "philadelphia"
